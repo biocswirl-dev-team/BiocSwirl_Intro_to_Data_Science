@@ -377,11 +377,133 @@
   Hint: Try typing 'x[c("Feb","Apr")]'
 
 # vector subsetting using  logical operations
+- Class: cmd_question
+  Output: You can also subset a vector using logical operations. For example, 'x[c(FALSE, TRUE, TRUE, FALSE)]' will return the second and third element of the vector x. Try it out.
+  CorrectAnswer: x[c(FALSE, TRUE, TRUE, FALSE)]
+  AnswerTests: omnitest(correctExpr = 'x[c(FALSE, TRUE, TRUE, FALSE)]')
+  Hint: Try typing 'x[c(FALSE, TRUE, TRUE, FALSE)]'
+  
+- Class: text
+  Output: "We can use subsetting with logical operations to test if certain statements apply to each element. of a vector. In the following example we will test which elements of x are > 10000"
+  
+- Class: cmd_question
+  Output: For that purpose, we will assign our test statement 'x >= 10000' to an object called over10thousand. Try it!
+  CorrectAnswer: over10thousand <- x >= 10000
+  AnswerTests: omnitest(correctExpr = 'over10thousand <- x >= 10000')
+  Hint: Try typing 'over10thousand <- x >= 10000'
+  
+- Class: cmd_question
+  Output: Now, we can use the object 'over10thousand' to subset x. Like so x[over10thousand]. See for yourself!
+  CorrectAnswer: x[over10thousand]
+  AnswerTests: omnitest(correctExpr = 'x[over10thousand]')
+  Hint: Try typing 'x[over10thousand]'
+  
+- Class: cmd_question
+  Output: "However, we don't actually need an intermediate variable. We can do the same subsetting all in one go. Try subsetting x for x >= 10000 without using the object 'over10thousand'"
+  CorrectAnswer: x[x >= 10000]
+  AnswerTests: omnitest(correctExpr = 'x[x >= 10000]')
+  Hint: Try typing 'x[x >= 10000]'
+  
+- Class: text
+  Output: You can further combine different test conditions. If you want to test if x is > 100 AND < 200, the test would look like this 'x[x>100 & x<200]'
+  
+- Class: text
+  Output: If you want to test if x is > 100 OR < 10, then the test would look like this 'x[x>100 | x<10]'
+  
+- Class: cmd_question
+  Output: blank
+  CorrectAnswer: x[names(x) == "May"]
+  AnswerTests: omnitest(correctExpr = 'x[names(x) == "May"]')
+  Hint: Try typing 'x[names(x) == "May"]'
+  
+- Class: cmd_question
+  Output: blank
+  CorrectAnswer: x[names(x) %in% c("Feb", "Apr", "May")]
+  AnswerTests: omnitest(correctExpr = 'x[names(x) %in% c("Feb", "Apr", "May")]')
+  Hint: Try typing 'x[names(x) %in% c("Feb", "Apr", "May")]'
+  
+- Class: cmd_question
+  Output: Blank
+  CorrectAnswer: x[! names(x) %in% c("Mar")]
+  AnswerTests: omnitest(correctExpr = 'x[! names(x) %in% c("Mar")]')
+  Hint: Try typing 'x[! names(x) %in% c("Mar")]'
 
 # list subsetting
 
+- Class: text
+  Output: List subsetting!
+  
+- Class: cmd_question
+  Output: Take a look at 'another_list'!
+  CorrectAnswer: another_list
+  AnswerTests: omnitest(correctExpr = 'another_list')
+  Hint: Try typing 'another_list'. This is an R object containing a list, that we created earlier in the lesson.
+  
+- Class: cmd_question
+  Output: blank
+  CorrectAnswer: another_list[2]
+  AnswerTests: omnitest(correctExpr = 'another_list[2]')
+  Hint: Try typing 'another_list[2]'
+  
+- Class: cmd_question
+  Output: blank
+  CorrectAnswer: another_list[1:2]
+  AnswerTests: omnitest(correctExpr = 'another_list[1:2]')
+  Hint: Try typing 'another_list[1:2]'
+  
+- Class: cmd_question
+  Output: You can also subset lists using the names of it's elements. Try subsetting for "numbers" and "data"!
+  CorrectAnswer: another_list[c("numbers", "data")]
+  AnswerTests: omnitest(correctExpr = 'another_list[c("numbers", "data")]')
+  Hint: Try typing 'another_list[c("numbers", "data")]'
+  
+- Class: cmd_question
+  Output: blank
+  CorrectAnswer: another_list$numbers
+  AnswerTests: omnitest(correctExpr = 'another_list$numbers')
+  Hint: Try typing 'another_list$numbers' 
+
 # data frame subsetting
 
+- Class: text
+  Output: Data Frame subsetting!
+  
+- Class: cmd_question
+  Output: First, recall the dataframe 'covid'.
+  CorrectAnswer: covid
+  AnswerTests: omnitest(correctExpr = 'covid')
+  Hint: Try typing 'covid'
+  
+- Class: cmd_question
+  Output: Columns of dataframes can be selected with the '$' followed by the name of the column. Try selecting the "cases" column of the covid dataframe.
+  CorrectAnswer: covid$cases
+  AnswerTests: omnitest(correctExpr = 'covid$cases')
+  Hint: Try typing 'covid$cases'
+  
+- Class: cmd_question
+  Output: Columns can also be selected with the double square brackets. Within the square brackets you can use the name of the column or the number. Try getting the cases column using the square brackets.
+  CorrectAnswer: covid[[cases]]
+  AnswerTests: omnitest(correctExpr = 'covid[["cases"]]')
+  Hint: Try typing 'covid[["cases"]]'
+  
+- Class: cmd_question
+  Output: A specific cell of a dataframe can be selected by indicating the corresponding row and column within single square brackets, separated by a comma. The row comes first! Try getting the cell in the 3rd row and 4th column!
+  CorrectAnswer: covid[3,4]
+  AnswerTests: omnitest(correctExpr = 'covid[3,4]')
+  Hint: Try typing 'covid[3,4]'
+  
+- Class: cmd_question
+  Output: blank
+  CorrectAnswer: covid[3,]
+  AnswerTests: omnitest(correctExpr = 'covid[3,]')
+  Hint: Try typing 'covid[3,]'
+  
+- Class: cmd_question
+  Output: blank
+  CorrectAnswer: covid[,4]
+  AnswerTests: omnitest(correctExpr = 'covid[,4]')
+  Hint: Try typing 'covid[,4]'
 
+  
 
 
