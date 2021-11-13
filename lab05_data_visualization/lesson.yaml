@@ -7,4 +7,149 @@
   Version: 2.4.5
 
 - Class: text
-  Output: Welcome to the data visualization lesson!
+  Output: Welcome to the data visualization lesson! In this lesson, we want to show you how to visualize data using R and more specifically using the package 'ggplot2'.
+  
+- Class: text
+  Output: What is data viz.
+  
+- Class: text
+  Output: What is special about ggplot2. Some references.references
+  
+- Class: text
+  Output: "We're going to use the data frame 'canada', containing weekly covid19 case numbers for different provinces. Now, we can get right into plotting."
+  
+- Class: cmd_question
+  Output: "First, we will look at a minimal ggplot example to get started. Execute the following command to see what kind of plot it produces 'ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line()'"
+  CorrectAnswer: ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line()
+  AnswerTests: omnitest(correctExpr = 'ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line()')
+  Hint: Try copying the ggplot code from the text above.
+  
+- Class: text
+  Output: Let's briefly break down the different components of this command. 
+  
+- Class: text
+  Output: First, Data. That is the data frame containing the data points you are plotting. This can also be piped in with the tidyverse pipe ('%>%').
+  
+- Class: text
+  Output: Second Aesthetics (aes=), Assigning columns in the data to visual components (also known as aesthetics), such as x, y, colour, fill, shape, size, and label
+
+- Class: text
+  Output: And finally, Geometry (geom). Visual representation of the data, such as point, line, boxplot, col (column), density, histogram, abline (mx + b), hline/vline (horizontal/vertical line). Each geom is it's own layer.
+
+- Class: cmd_question
+  Output: plotting without the geometry.
+  CorrectAnswer: ggplot(canada, aes(x = week, y = cases, colour = province))
+  AnswerTests: omnitest(correctExpr= 'ggplot(canada, aes(x = week, y = cases, colour = province))')
+  Hint: Try typing 'ggplot(canada, aes(x = week, y = cases, colour = province))'.
+  
+- Class: cmd_question
+  Output: blank
+  CorrectAnswer: ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line() + geom_point()
+  AnswerTests: omnitest(correctExpr= 'ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line() + geom_point()')
+  Hint: Try typing 'ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line() + geom_point()'.
+  
+- Class: cmd_question
+  Output: remember each geom is a layer, so the order matters. Make the same plot but switch the order of the geoms and compare the plot you are getting.getting
+  CorrectAnswer: ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_point() + geom_line()
+  AnswerTests: omnitest(correctExpr= 'ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_point() + geom_line()')
+  Hint: Try typing 'ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_point() + geom_line()'.
+  
+- Class: cmd_question
+  Output: blank. constant values assigned to aes, but outside the parentheses.
+  CorrectAnswer: ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line() + geom_point(colour = "black")
+  AnswerTests: omnitest(correctExpr= 'ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line() + geom_point(colour = "black")')
+  Hint: try typing.
+
+  
+- Class: cmd_question
+  Output:
+  CorrectAnswer: ggplot(canada, aes(x = week, y = cases, colour = province)) + geom_line() + scale_y_log10()
+  AnswerTests:
+  Hint:
+  
+- Class: cmd_question
+  Output:
+  CorrectAnswer: ggplot(canada, aes(x = week, y = cases + 1, colour = province)) + geom_line() + scale_y_log10()
+  AnswerTests:
+  Hint:
+  
+- Class: cmd_question
+  Output: mutating and piping into ggplot 
+  CorrectAnswer: canada %>% mutate(cases = cases + 1) %>% ggplot(aes(x = week, y = cases, colour = province)) + geom_line() + scale_y_log10()
+  AnswerTests:
+  Hint:
+  
+- Class: cmd_question
+  Output: highlighting data
+  CorrectAnswer: canada %>% mutate(cases = cases + 1) %>% ggplot(aes(x = week, y = cases, colour = province)) + geom_line(aes(linetype = province != "British Columbia")) + scale_y_log10()
+  AnswerTests:
+  Hint:
+  
+- Class: cmd_question
+  Output: dropping useless legends
+  CorrectAnswer: canada %>% mutate(cases = cases + 1) %>% ggplot(aes(x = week, y = cases, colour = province)) + geom_line(aes(linetype = province != "British Columbia")) + scale_y_log10() + scale_linetype(breaks = NULL)
+  AnswerTests:
+  Hint:
+  
+- Class: cmd_question
+  Output: adjusted case rate (this can then be piped into ggplot)
+  CorrectAnswer: canada %>% mutate(cases = cases + 1, cases_rate = cases / population * 1000000)
+  AnswerTests:
+  Hint:
+  
+- Class: cmd_question
+  Output:
+  CorrectAnswer: coord_cartesian(ylim = c(0, 200))
+  AnswerTests:
+  Hint:
+  
+# make full plot here
+  
+- Class: cmd_question
+  Output: organize plot into facets
+  CorrectAnswer: facet_grid(rows = vars(region))
+  AnswerTests: omnitest(correctExpr= 'facet_grid(rows = vars(region))')
+  Hint: Try typing 'facet_grid(rows = vars(region))'.
+  
+# make full plot here
+
+- Class: cmd_question
+  Output: allow x and y axes to be different
+  CorrectAnswer: facet_grid(rows = vars(region), scales = "free_y")
+  AnswerTests: omnitest(correctExpr= 'facet_grid(rows = vars(region), scales = "free_y")')
+  Hint: Try adding 'scales="free_y"' to the previous command.
+
+# make full plot here
+
+- Class: cmd_question
+  Output: scale facet height?
+  CorrectAnswer: facet_grid(rows = vars(region), scales = "free_y", space = "free_y")
+  AnswerTests: omnitest(correctExpr='facet_grid(rows = vars(region), scales = "free_y", space = "free_y")')
+  Hint: Try typing 'facet_grid(rows = vars(region), scales = "free_y", space = "free_y")'.
+  
+# make full plot here
+
+- Class: cmd_question
+  Output: 
+  CorrectAnswer:
+  AnswerTests: 
+  Hint: 
+  
+- Class: cmd_question
+  Output: 
+  CorrectAnswer:
+  AnswerTests: 
+  Hint: 
+  
+- Class: cmd_question
+  Output: 
+  CorrectAnswer:
+  AnswerTests: 
+  Hint: 
+  
+
+
+  
+  
+  
+  
