@@ -1,7 +1,7 @@
 - Class: meta
-  Course: mbb343
+  Course: Intro_to_Data_Science
   Lesson: lab05_data_visualization
-  Author: your name goes here
+  Author: Julia Philipp, Bruno Grande
   Type: Standard
   Organization: your organization's name goes here
   Version: 2.4.5
@@ -129,27 +129,127 @@
   
 # make full plot here
 
-- Class: cmd_question
-  Output: 
-  CorrectAnswer:
-  AnswerTests: 
-  Hint: 
+- Class: text
+  Output: Next, we want to try and plot cases and deaths in the same figure. Because cases and deaths are in different columns, we cannot assign both to the y aesthetic.
   
-- Class: cmd_question
-  Output: 
-  CorrectAnswer:
-  AnswerTests: 
-  Hint: 
+- Class: text
+  Output: To address this, we need to convert our data into a longer format, so that one column will ocntain both the case and death counts.
+
+- Class: text
+  Output: For that purpose, we will use the tidyverse function pivot_longer()
   
-- Class: cmd_question
-  Output: 
-  CorrectAnswer:
-  AnswerTests: 
-  Hint: 
+- Class: video
+  Output: Find out more about this function here
+  VideoLink: https://tidyr.tidyverse.org/reference/pivot_longer.html
+
+- Class: text
+  Output: pivot_longer() takes the arguments cols, names_to and values_to, which you can use to declare which columns should be used to convert to the long format and name the resulting category and value columns.
+  
   
 
+- Class: cmd_question
+  Output: Excute the following code to make a new, longer canada dataframe. canada_long <- canada %>% pivot_longer(cols = c(cases, deaths), names_to = "type", values_to = "count")
+  CorrectAnswer: canada_long <- canada %>% pivot_longer(cols = c(cases, deaths), names_to = "type", values_to = "count")
+  AnswerTests: omnitest(correctExpr='canada_long <- canada %>% pivot_longer(cols = c(cases, deaths), names_to = "type", values_to = "count")')
+  Hint: Try copying the code above.
+  
+- Class: cmd_question
+  Output: Now look at the new canada_long data frame using View() to understand what changed with pivot_longer.
+  CorrectAnswer: View(canada_long)
+  AnswerTests: omnitest(correctExpr='View(canada_long)')
+  Hint: Try using View() on canada_long.
+  
+- Class: text
+  Output: Now we can plot both case and death counts using the y aesthetic, because both numbers are in the "value" column. 
+  
+- Class: cmd_question
+  Output: Try to plot the counts (case and death numbers) over the weeks, use an additional aesthetic fill = type to color the bars based on the type of count.
+  CorrectAnswer: ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col() + facet_grid(rows = vars(region), scales = "free_y")
+  AnswerTests: omnitest(correctExpr='ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col() + facet_grid(rows = vars(region), scales = "free_y")')
+  Hint: Try the following. ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col() + facet_grid(rows = vars(region), scales = "free_y")
+  
+- Class: cmd_question
+  Output: Instead of splitting bars based on the type, it can be more useful to show to bars side-by-side. We can achieve that by adding the parameter 'position = "dodge"' to the geom_col layer of our previous plot. Try it out!
+  CorrectAnswer: ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y")
+  AnswerTests: omnitest(correctExpr='ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y")')
+  Hint: Try the following. ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y")
+  
+- Class: text
+  Output: Next, we will try to assign better colors to the case and death bars.
+  
+- Class: cmd_question
+  Output: We can do that with an additional layer called 'scale_fill_manual()'. Try adding the following layer to your previous code - scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))
+  CorrectAnswer: ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y") + scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))
+  AnswerTests: omnitest(correctExpr='ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y") + scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))')
+  Hint: Try typing the following. ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y") + scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))
+  
+  
+- Class: cmd_question
+  Output: Instead of geom_col() for barplots, we can use geom_line() to plot cases over time as a line. Try it out by modifying the previous code.
+  CorrectAnswer: ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_line() + facet_grid(rows = vars(region), scales = "free_y") + scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))
+  AnswerTests: omnitest(correctExpr='ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_line() + facet_grid(rows = vars(region), scales = "free_y") + scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))')
+  Hint: Try substituting geom_col(position = "dodge") with geom_line(). No parameters needed.
+  
+- Class: text
+  Output: Next up, we will plot the cases on the X axis and the deaths on the Y axis. For that we want to summarize the cases and deaths for each province over the different time points.
+  
+- Class: cmd_question
+  Output: Use the "canada" dataframe, group it by region, province and province_code and then summarize the cases and deaths. Assign the results to "canada_totals"
+  CorrectAnswer: canada_totals <- group_by(region, province, province_code) %>% summarize(cases = sum(cases), deaths = sum(deaths))
+  AnswerTests: omnitest(correctExpr='canada_totals <- group_by(region, province, province_code) %>% summarize(cases = sum(cases), deaths = sum(deaths))')
+  Hint: Try typing "canada_totals <- group_by(region, province, province_code) %>% summarize(cases = sum(cases), deaths = sum(deaths))"
+  
+- Class: cmd_question
+  Output: Now we can make a scatterplot, with the cases on the x axis and the deaths on the y axis using geom_point(). Color the dots by province. Give it a go!
+  CorrectAnswer: ggplot(canada_totals, aes(x=cases, y=deaths, color=province)) + geom_point()
+  AnswerTests: omnitest(correctExpr='ggplot(canada_totals, aes(x=cases, y=deaths, color=province)) + geom_point()')
+  Hint: Try typing "ggplot(canada_totals, aes(x=cases, y=deaths, color=province)) + geom_point()"
+  
+- Class: cmd_question
+  Output: Try using log scales (e.g. scale_x_log10()) on both axes for a more even spread of the data from the different provinces.
+  CorrectAnswer: ggplot(canada_totals, aes(x = cases, y = deaths, colour = province)) + geom_point() + scale_x_log10() + scale_y_log10()
+  AnswerTests: omnitest(correctExpr='ggplot(canada_totals, aes(x = cases, y = deaths, colour = province)) + geom_point() + scale_x_log10() + scale_y_log10()')
+  Hint: Try typing "ggplot(canada_totals, aes(x = cases, y = deaths, colour = province)) + geom_point() + scale_x_log10() + scale_y_log10()"
+  
+- Class: cmd_question
+  Output: Instead of coloured points, we can simply plot the province codes using `geom_text()` on the scatter plot and specify label = province_code in the aesthetics. Try it out!
+  CorrectAnswer: ggplot(canada_totals, aes(x = cases, y = deaths, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10()
+  AnswerTests: omnitest(correctExpr='ggplot(canada_totals, aes(x = cases, y = deaths, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10()')
+  Hint: Try typing "ggplot(canada_totals, aes(x = cases, y = deaths, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10()"
+  
+- Class: cmd_question
+  Output: By adding a pseuudocount (+1) to the number of cases and deaths, we can ensure that there are no infinite values to be plotted on either axis. Try it
+  CorrectAnswer: ggplot(canada_totals, aes(x = cases + 1, y = deaths + 1, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10()
+  AnswerTests: omnitest(correctExpr='ggplot(canada_totals, aes(x = cases + 1, y = deaths + 1, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10()')
+  Hint: Try typing "ggplot(canada_totals, aes(x = cases + 1, y = deaths + 1, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10()"
+  
+- Class: text
+  Output: Next, we will work on improving the labeling of the plot, by adding labels to the axes and adding a color legend. We will color the dots of the scatterplot by province again. Additionally, add two more layers to the plot 'scale_color_discrete(breaks = NULL)' and 'labs(x = "Number of cases (log)", y = "Number of deaths (log)")'
+  
+- Class: cmd_question
+  Output: Modifying the previous code, we will color the dots of the scatterplot by province again (add "color = province"). Additionally, add two more layers to the plot 'scale_color_discrete(breaks = NULL)' and 'labs(x = "Number of cases (log)", y = "Number of deaths (log)")'
+  CorrectAnswer: ggplot(canada_totals, aes(x = cases + 1, y = deaths + 1, colour = province, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10() + scale_colour_discrete(breaks = NULL) + labs(x = "Number of cases (log)", y = "Number of deaths (log)")
+  AnswerTests: omnitest(correctExpr='ggplot(canada_totals, aes(x = cases + 1, y = deaths + 1, colour = province, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10() + scale_colour_discrete(breaks = NULL) + labs(x = "Number of cases (log)", y = "Number of deaths (log)")')
+  Hint: Try typing 'ggplot(canada_totals, aes(x = cases + 1, y = deaths + 1, colour = province, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10() + scale_colour_discrete(breaks = NULL) + labs(x = "Number of cases (log)", y = "Number of deaths (log)")'
+  
+- Class: text
+  Output: Finally, we want to briefly cover how to save plots for later viewing, presentations, etc.We will focus on two formats today \: PNG and PDF.
+  
+- Class: text
+  Output: PNG is a raster image format, i.e., information is encoded as coloured pixels. In other words, if you zoom in, the image will be pixelated or blurry. That said, it's a widely supported format, useful for sharing graphics online.
 
+- Class: text
+  Output: "PDF is a vector image format, i.e., information is encoded as shapes and lines. In other words, PDF plots won't get blurry if they're enlarged. PDF images are ideal for inclusion in documents (Word) and presentations (PowerPoint)"
   
+- Class: cmd_question
+  Output: The `ggsave()` function allows you to save your last plot and infers the format from the file extension of the file name you are providing as an argument. Try saving the last plot as "provinces.png"
+  CorrectAnswer: ggsave("provinces.png")
+  AnswerTests: omnitest(correctExpr='ggsave("provinces.png")')
+  Hint: Try typing 'ggsave("provinces.png")'
   
-  
-  
+- Class: cmd_question
+  Output: Alternatively, you can always store your ggplot2 plot in a variable. The second argument to ggsave() can be that variable. We saved a plot under curves_plots. Trying saving it to "curves.pdf".
+  CorrectAnswer: ggsave("curves.pdf", curves_plot)
+
+- Class: text
+  Output: Fantastic, you finished the data visualization lesson!
