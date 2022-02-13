@@ -12,6 +12,7 @@
 - Class: text
   Output: In lesson 2, we covered the most important data structures in R, including the data frame and its vector columns. While much more is possible in R, these two data structures alone cover most use cases in data science. As a result, we can now start an honest analysis of the worldwide COVID-19 dataset. The EU has a few questions that they would like our team, Pandemic Intelligence, to address as soon as possible.
 
+##################### installing packages 
 - Class: text
   Output: In order to take full advantage of R's rich ecosystem, we need to learn how to install third party packages. Packages extend R's base functionality, and are quality checked when hosted on a repository such as CRAN or Bioconductor. CRAN (The Comprehensive R Archive Network) hosts nearly all available general use R packages, whereas Bioconductor hosts most of the bioinformatics R packages. 
 
@@ -24,12 +25,24 @@
   CorrectAnswer: install.packages("datascience")
   AnswerTests: omnitest(correctVal='install.packages("datascience")')
   Hint: The library() function is what we use to load packages we've previously installed into our R session. 
+
+- Class: cmd_question
+  Output: Bioconductor packages require a slightly different install method, however. First you will need the package called BiocManager from CRAN. Try doing so below:
+  CorrectAnswer: install.packages("BiocManager")
+  AnswerTests: omnitest(correctVal='install.packages("BiocManager")')
+  Hint: Remember that package names are case sensitive. Try using the same command as the last question. If you are using an R version < 3.5.0, use BiocInstaller/biocLite instead. 
+
+- Class: cmd_question
+  Output: Now that we've installed the Bioconductor Package Manager, we can begin actually installing Bioconductor packaged. Type BiocManager::available() to see a list of the available packages. You will notice that when you type a package name followed by '::' that a list of functions will autocomplete.
+  CorrectAnswer: BiocManager::available()
+  AnswerTests: omnitest(correctVal='BiocManager::available()')
+  Hint: Type the command verbatim. 
   
-  
-  
-  ######################## bioconductor install
-  
-  
+- Class: cmd_question
+  Output: To install a package, we can use BiocManager::install(), which is Bioconductor's equivalent for install.packages(). Try installing the package GenomicFeatures below. (Note that we won't be using this package, so this is for demonstration only.)
+  CorrectAnswer: BiocManager::install("GenomicFeatures")
+  AnswerTests: omnitest(correctVal='BiocManager::install("GenomicFeatures")')
+  Hint: Make sure you spelled GenomicFeatures correctly, and encircle it in quotation marks so it's read as a string.
   
 - Class: text
   Output: We will start with two packages from what is called the `tidyverse` suite, hosted on CRAN. The tidyverse is a group of packages designed to work seamlessly together, with the aim of providing an alternative data analysis workflow than what you will find in base R. The two packages we will introduce today are `readr` (for importing and exporting data) and `dplyr` (for exploring and wrangling data). These packages come with functions that are often faster and more convenient to use than their base R equivalents. They're essential tools in your data science toolbox.
@@ -40,6 +53,7 @@
   AnswerTests: omnitest(correctExpr='install.packages(c("readr", "dplyr"))')
   Hint: A vector of strings can be made by using c("one", "two")
 
+#################### directory
 - Class: text
   Output: Now that we've installed the packaged needed to read in our data files, we need to tell R which files we intend to use. This involves using our working directory to navigate to where the files are. Our working directory is the folder in the file system where our current R session has set itself up. 
   
@@ -66,8 +80,9 @@
 - Class: text
   Output: Let's explore monthly COVID-19 statistics for territories spanning the globe, not just Canada. The data was originally downloaded from the [EU Open Data Portal](https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data). It was lightly processed and filtered for this tutorial. Note that the last month might not be complete if the data was downloaded mid-month.
 
+
  
-  
+  ################# rstudio project
   
   
   
