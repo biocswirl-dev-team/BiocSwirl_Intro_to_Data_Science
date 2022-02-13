@@ -14,10 +14,9 @@
 
 ##################### installing packages 
 - Class: text
-  Output: In order to take full advantage of R's rich ecosystem, we need to learn how to install third party packages. Packages extend R's base functionality, and are quality checked when hosted on a repository such as CRAN or Bioconductor. CRAN (The Comprehensive R Archive Network) hosts nearly all available general use R packages, whereas Bioconductor hosts most of the bioinformatics R packages. 
-
+  Output: In order to take full advantage of R\'s rich ecosystem, we need to learn how to install third party packages. Packages extend R\'s base functionality, and are quality checked when hosted on a repository such as CRAN or Bioconductor. CRAN (The Comprehensive R Archive Network) hosts nearly all available general use R packages, whereas Bioconductor hosts most of the bioinformatics R packages. Remember that any time during the course you can use the play() command in your R console to try out random R commands without getting the answer wrong. To enter back into the course use nxt()
 - Class: text
-  Output: In order to install a package, we use the syntax install.packages("packagename") - When we give R a string, it is case sensitive. This is important when installing packages since the exact package name must be matched in the CRAN repository. The most common package install errors come from not spelling the package name right.
+  Output: In order to install a package, we use the syntax install.packages(\"packagename\") - When we give R a string, it is case sensitive. This is important when installing packages since the exact package name must be matched in the CRAN repository. The most common package install errors come from not spelling the package name right.
   
 - Class: mult_question
   Output: How would you install an R package called datascience from CRAN?
@@ -33,13 +32,13 @@
   Hint: Remember that package names are case sensitive. Try using the same command as the last question. If you are using an R version < 3.5.0, use BiocInstaller/biocLite instead. 
 
 - Class: cmd_question
-  Output: Now that we've installed the Bioconductor Package Manager, we can begin actually installing Bioconductor packaged. Type BiocManager::available() to see a list of the available packages. You will notice that when you type a package name followed by '::' that a list of functions will autocomplete.
+  Output: Now that we\'ve installed the Bioconductor Package Manager, we can begin actually installing Bioconductor packaged. Type BiocManager::available() to see a list of the available packages. You will notice that when you type a package name followed by \'::\' that a list of functions will autocomplete.
   CorrectAnswer: BiocManager::available()
   AnswerTests: omnitest(correctVal='BiocManager::available()')
   Hint: Type the command verbatim. 
   
 - Class: cmd_question
-  Output: To install a package, we can use BiocManager::install(), which is Bioconductor's equivalent for install.packages(). Try installing the package GenomicFeatures below. (Note that we won't be using this package, so this is for demonstration only.)
+  Output: To install a package, we can use BiocManager::install(), which is Bioconductor\'s equivalent for install.packages(). Try installing the package GenomicFeatures below. (Note that we won't be using this package, so this is for demonstration only.)
   CorrectAnswer: BiocManager::install("GenomicFeatures")
   AnswerTests: omnitest(correctVal='BiocManager::install("GenomicFeatures")')
   Hint: Make sure you spelled GenomicFeatures correctly, and encircle it in quotation marks so it's read as a string.
@@ -52,6 +51,13 @@
   CorrectAnswer: install.packages(c("readr", "dplyr"))
   AnswerTests: omnitest(correctExpr='install.packages(c("readr", "dplyr"))')
   Hint: A vector of strings can be made by using c("one", "two")
+  
+  
+- Class: cmd_question
+  Output: Installing a packages creates a local copy of that package's functionality on our local machines, but doesn\'t make them directly available to us in our current R session. This is because over time as we install many packages, it becomes too cumbersome on our computers to load in every single function from every single package we have installed everytime we want to use R. Therefore, we have to load in packages manually using the library() function. Try loading in the package readr using library(packagename). Unlike installing packages, we don\'t need quotes around the package name. Remember the package name is case sensitive.
+  CorrectAnswer: library(readr) 
+  AnswerTests: omnitest(correctExpr='library(readr)')
+  Hint: Try library(readr)
 
 #################### directory
 - Class: text
@@ -75,13 +81,26 @@
   AnswerChoices: /home/someone/downloads/data.csv;~/downloads/data.csv;../someone/downloads/data.csv;downloads/./data.csv;None of the above
   CorrectAnswer: downloads/./data.csv
   AnswerTests: omnitest(correctVal='downloads/./data.csv')
-  Hint: In file systems, ~ and . have special meanings, and refer to specific places on your computer- . means 'relative to where I currently am' and ~ means 'relative to home'
+  Hint: In file systems, ~ and . have special meanings, and refer to specific places on your computer- . means \'relative to where I currently am\' and ~ means \'relative to home\'
    
 - Class: text
   Output: Let's explore monthly COVID-19 statistics for territories spanning the globe, not just Canada. The data was originally downloaded from the [EU Open Data Portal](https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data). It was lightly processed and filtered for this tutorial. Note that the last month might not be complete if the data was downloaded mid-month.
 
+- Class: cmd_question
+  Output: To read in data we will be using read_csv() from the readr package, which has special functions for reading in different data formats into R. Usually, when we read in data we assign it into a variable, which looks something like variablename <- read_csv(\"path/to/data\"). Try reading in the covid19_cases_worldwide_monthly.csv dataset located in the data folder using the read_csv() function. Assign it to a variable named \"covid\". 
+  CorrectAnswer: covid <- read_csv("data/covid19_cases_worldwide_monthly.csv")
+  AnswerTests: omnitest(correctVal= 'covid <- read_csv("data/covid19_cases_worldwide_monthly.csv")')
+  Hint: Remember to use the format variablename <- read_csv('data/datafile.csv')
+  
 
+- Class: mult_question
+  Output: Now that we have the data loaded into our environment, 
+  AnswerChoices: /home/someone/downloads/data.csv;~/downloads/data.csv;../someone/downloads/data.csv;downloads/./data.csv;None of the above
+  CorrectAnswer: downloads/./data.csv
+  AnswerTests: omnitest(correctVal='downloads/./data.csv')
+  Hint: In file systems, ~ and . have special meanings, and refer to specific places on your computer- . means \'relative to where I currently am\' and ~ means \'relative to home\'
  
+  
   ################# rstudio project
   
   
