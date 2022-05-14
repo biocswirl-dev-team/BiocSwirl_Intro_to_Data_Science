@@ -411,27 +411,27 @@
   Output: If you want to test if x is > 100 OR < 10, then the test would look like this 'x[x>100 | x<10]'
   
 - Class: cmd_question
-  Output: blank
+  Output: "You can also subset vectors based on their names using 'names(x)'. Try subsetting the vector for the month of May. Remember the names of the vector are the months."
   CorrectAnswer: x[names(x) == "May"]
   AnswerTests: omnitest(correctExpr = 'x[names(x) == "May"]')
   Hint: Try typing 'x[names(x) == "May"]'
   
 - Class: cmd_question
-  Output: blank
+  Output: "Next, try subsetting for one of several options. E.g. subset for the name being either February, April, or May. The way this works is you subset with the expression 'names(x) %in% c()'."
   CorrectAnswer: x[names(x) %in% c("Feb", "Apr", "May")]
   AnswerTests: omnitest(correctExpr = 'x[names(x) %in% c("Feb", "Apr", "May")]')
   Hint: Try typing 'x[names(x) %in% c("Feb", "Apr", "May")]'
   
 - Class: cmd_question
-  Output: Blank
-  CorrectAnswer: x[! names(x) %in% c("Mar")]
+  Output: "To exclude elements or to negate your filtering conditions, you can use an exclamation point (!). Subsetting a vector with the expression '! names(x) %in% c('Mar'), will exclude elements with the name 'Mar'. Try it out!"
+  CorrectAnswer: x[! names(x) %in% c("Mar")
   AnswerTests: omnitest(correctExpr = 'x[! names(x) %in% c("Mar")]')
   Hint: Try typing 'x[! names(x) %in% c("Mar")]'
 
 # list subsetting
 
 - Class: text
-  Output: List subsetting!
+  Output: "Now we will move on to subsetting lists."
   
 - Class: cmd_question
   Output: Take a look at 'another_list'!
@@ -440,25 +440,25 @@
   Hint: Try typing 'another_list'. This is an R object containing a list, that we created earlier in the lesson.
   
 - Class: cmd_question
-  Output: blank
+  Output: "Subsets of lists work similar to subsets of vectors with the square brackets. Try to extract the second element of the list 'another_list'."
   CorrectAnswer: another_list[2]
   AnswerTests: omnitest(correctExpr = 'another_list[2]')
   Hint: Try typing 'another_list[2]'
   
 - Class: cmd_question
-  Output: blank
-  CorrectAnswer: another_list[1:2]
-  AnswerTests: omnitest(correctExpr = 'another_list[1:2]')
-  Hint: Try typing 'another_list[1:2]'
+  Output: "To extract multiple, sequential elements from a list or vector, you can use this expression with a colon: 1:3. This will generate a vector like c(1,2,3). Using that for subsetting will extract the first three elements. Try it on 'another_list'!"
+  CorrectAnswer: another_list[1:3]
+  AnswerTests: omnitest(correctExpr = 'another_list[1:3]')
+  Hint: Try typing 'another_list[1:3]'
   
 - Class: cmd_question
-  Output: You can also subset lists using the names of it's elements. Try subsetting for "numbers" and "data"!
+  Output: You can also subset lists using the names of its elements. Try subsetting for "numbers" and "data"!
   CorrectAnswer: another_list[c("numbers", "data")]
   AnswerTests: omnitest(correctExpr = 'another_list[c("numbers", "data")]')
   Hint: Try typing 'another_list[c("numbers", "data")]'
   
 - Class: cmd_question
-  Output: blank
+  Output: To subset a list for one named element, you can use the '$' as well. Try 'another_list$numbers'!
   CorrectAnswer: another_list$numbers
   AnswerTests: omnitest(correctExpr = 'another_list$numbers')
   Hint: Try typing 'another_list$numbers' 
@@ -466,7 +466,7 @@
 # data frame subsetting
 
 - Class: text
-  Output: Data Frame subsetting!
+  Output: As the final part of this lesson, we will go over subsetting of data frames.
   
 - Class: cmd_question
   Output: First, recall the dataframe 'covid'.
@@ -493,13 +493,13 @@
   Hint: Try typing 'covid[3,4]'
   
 - Class: cmd_question
-  Output: blank
+  Output: You can also extract a whole row of a data frame across all columns using the same square brackets but only providing an integer for the row and nothing for the column, you will still need to comma, though. Try extracting the third row!
   CorrectAnswer: covid[3,]
   AnswerTests: omnitest(correctExpr = 'covid[3,]')
   Hint: Try typing 'covid[3,]'
   
 - Class: cmd_question
-  Output: blank
+  Output: Similarly, you can extract a whole column across all rows. Try to display the 4th column!
   CorrectAnswer: covid[,4]
   AnswerTests: omnitest(correctExpr = 'covid[,4]')
   Hint: Try typing 'covid[,4]'
