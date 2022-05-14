@@ -16,6 +16,12 @@
   Output: What is special about ggplot2. Some references.references
   
 - Class: text
+  Output: include something about formatting ggplot code properly
+  
+- Class: text
+  Output: include something about opening a separate
+  
+- Class: text
   Output: "We're going to use the data frame 'canada', containing weekly covid19 case numbers for different provinces. Now, we can get right into plotting."
   
 - Class: cmd_question
@@ -182,7 +188,6 @@
   CorrectAnswer: ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y") + scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))
   AnswerTests: omnitest(correctExpr='ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y") + scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))')
   Hint: Try typing the following. ggplot(canada_long, aes(x = week, y = count, fill = type)) + geom_col(position = "dodge") + facet_grid(rows = vars(region), scales = "free_y") + scale_fill_manual(values = c(deaths = "firebrick", cases = "dodgerblue"))
-  
   
 - Class: cmd_question
   Output: Instead of geom_col() for barplots, we can use geom_line() to plot cases over time as a line. Try it out by modifying the previous code.
