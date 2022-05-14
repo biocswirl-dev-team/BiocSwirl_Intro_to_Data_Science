@@ -238,10 +238,10 @@
   Hint: Try typing 'ggplot(canada_totals, aes(x = cases + 1, y = deaths + 1, colour = province, label = province_code)) + geom_text() + scale_x_log10() + scale_y_log10() + scale_colour_discrete(breaks = NULL) + labs(x = "Number of cases (log)", y = "Number of deaths (log)")'
   
 - Class: text
-  Output: Finally, we want to briefly cover how to save plots for later viewing, presentations, etc.We will focus on two formats today \: PNG and PDF.
+  Output: "Finally, we want to briefly cover how to save plots for later viewing, presentations, etc. We will focus on two formats today: PNG and PDF."
   
 - Class: text
-  Output: PNG is a raster image format, i.e., information is encoded as coloured pixels. In other words, if you zoom in, the image will be pixelated or blurry. That said, it's a widely supported format, useful for sharing graphics online.
+  Output: "PNG is a raster image format, i.e., information is encoded as coloured pixels. In other words, if you zoom in, the image will be pixelated or blurry. That said, it's a widely supported format, useful for sharing graphics online."
 
 - Class: text
   Output: "PDF is a vector image format, i.e., information is encoded as shapes and lines. In other words, PDF plots won't get blurry if they're enlarged. PDF images are ideal for inclusion in documents (Word) and presentations (PowerPoint)"
@@ -258,3 +258,15 @@
 
 - Class: text
   Output: Fantastic, you finished the data visualization lesson!
+
+- Class: text_question
+  Output: explain the question here
+  CorrectAnswer: answer
+  AnswerTests: omnitest(correctVal='answer')
+  Hint: hint
+
+- Class: text_question
+  Output: explain the question here
+  CorrectAnswer: answer
+  AnswerTests: omnitest(correctVal='answer')
+  Hint: hint

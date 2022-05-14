@@ -8,3 +8,132 @@
 
 - Class: text
   Output: Welcome to the data wrangling lesson
+  
+- Class: text
+  Output: "In the previous tutorial, we were introduced to the concept of packages and how powerful they can be. In particular, we started using `readr` and `dplyr`, two of the most downloaded packages on CRAN. While everything we touched upon in the previous tutorial is possible in base R, we tend to use these packages because they provide a succinct and user-friendly syntax for importing and manipulating data frames. Admittedly, we haven't achieved much that wasn't already possible in Excel. That changes today."
+  
+- Class: text
+  Output: "In this tutorial, we will learn about the most powerful pair of functions in `dplyr`, namely `group_by()` and `summarize()`. On their own, these two functions help answer a wide range of questions when faced with a dataset. As soon as we have to calculate aggregate statistics—ranging from a simple average to computing statistical tests—these functions will almost certainly make an appearance. That said, `group_by()` is also useful in combination with `mutate()`, and we will see when to use one or the other."
+  
+- Class: text
+  Output: "For the second half of this tutorial, we will introduce `tidyr`, another `tidyverse` package. As its name implies, it comes with a suite of functions capable of tidying and wrangling data. Here, we will focus on arguably the two star functions of `tidyr`, namely `pivot_longer()` and `pivot_wider()`. These functions allow us to seamlessly convert a data frame between long and wide layouts. By the end of this tutorial, we'll know what these layouts mean and when we want to convert our data frames between each of them."
+
+- Class: text
+  Output: "`dplyr`: The Heart of the Tidyverse. For this purpose we loaded the libraries `tidyverse` and `readr`"
+
+- Class: text
+  Output: "Explicit Grouping with `nest_by()`. For this part of the course, we will use the familiar covid data set again, which is already loaded. We also fixed the order of the months."
+  
+- Class: cmd_question
+  Output: To get an overview of the dataset again, execute 'head(covid)' first.
+  CorrectAnswer: head(covid)
+  AnswerTests: omnitest(correctExpr='head(covid)')
+  Hint: Type the code that has been suggested in the question above.
+
+- Class: text
+  Output: Nest_by() is used for explicit grouping of data.
+  
+- Class: cmd_question
+  Output: Use nest_by() on the covid dataset to nest the dataset by continents, assign the results to 'covid_nest_continent'
+  CorrectAnswer: covid_nest_continent <- nest_by(covid, continent)
+  AnswerTests: omnitest(correctExpr='covid_nest_continent <- nest_by(covid, continent)')
+  Hint: Type covid_nest_continent <- nest_by(covid, continent)
+  
+- Class: cmd_question
+  Output: Take a look at the resulting data structure 'covid_nest_continent'. You will see that each row in the output, corresponds to a whole group from the input 'covid'. Here, that is 'continent'.
+  CorrectAnswer: covid_nest_continent
+  AnswerTests: omnitest(correctExpr='covid_nest_continent')
+  Hint: Type 'covid_nest_continent'
+
+- Class: text
+  Output: Each of these rows contain data frames and functions that work on data frames are useful here. The opposite of 'nest_by()' is 'unnest()' by the way. It will bind all of these individual dataframes back together to one.
+
+- Class: cmd_question
+  Output: 'covid_nest_continent' itself is a tibble and behaves like a dataframe, we can perform dataframe functions in it as well. For example, we can add a new column that shows the number of rows of data in each group. Try 'mutate(covid_nest_continent, num_rows = sum(data$cases))'
+  CorrectAnswer: mutate(covid_nest_continent, num_rows = sum(data$cases))
+  AnswerTests: omnitest(correctExpr='mutate(covid_nest_continent, num_rows = sum(data$cases))')
+  Hint: Try copying and executing the code shown above
+
+- Class: text
+  Output: "Implicit Grouping with `group_by()`"
+
+- Class: text
+  Output: "Most summary statistics are calculated from a vector, not a data frame. This is usually when you want to use `group_by()`. At this point, we will start using the pipe operator we learned in the last tutorial"
+
+- Class: cmd_question
+  Output: Use 'covid' and pipe it into the command 'group_by()', assign the results to 'covid_by_continent'.
+  CorrectAnswer: covid_by_continent <- covid %>% group_by(continent)
+  AnswerTests: omnitest(correctExpr='covid_by_continent <- covid %>% group_by(continent)', correctVal=VAL)
+  Hint: Try typing 'covid_by_continent <- covid %>% group_by(continent)'
+
+- Class: cmd_question
+  Output: Now take a look at the resulting data structure.
+  CorrectAnswer: covid_by_continent
+  AnswerTests: omnitest(correctExpr='covid_by_continent', correctVal=VAL)
+  Hint: Try typing 'covid_by_continent'
+
+- Class: text
+  Output: As you can see, unlike the output of `nest_by()`, the output of `group_by()` looks like just the original input.
+
+- Class: text
+  Output: However, if you look at the class ('class()') or structure ('str()'), you can see there is a difference. The class is a `grouped_df`, and there's an attribute called `groups`.
+  
+- Class: text
+  Output: This information is used by `summarize()` to perform calculations per group (rather than on the whole data frame). This is what we mean by implicit grouping
+
+- Class: text
+  Output: Summarizing data with `summarize()`
+  
+- Class: text
+  Output: On its own, `summarize()` is not very useful. Its output is a one-row data frame, not a vector. For calculating statistics on the entire dataset, it's usually simpler to run the functions on the column directly.
+  
+- Class: cmd_question
+  Output: To calculate the total number of cases worldwide, pipe 'covid' into summarize(), as argument give 'total_cases = sum(cases)'. This will create a new tibble named 'total_cases' which is calculated as sum of cases.
+  CorrectAnswer: covid %>% summarize(total_cases = sum(cases))
+  AnswerTests: omnitest(correctExpr='covid %>% summarize(total_cases = sum(cases))')
+  Hint: Try typing 'covid %>% summarize(total_cases = sum(cases))'
+  
+- Class: text
+  Output: The same could be achieved with sum(covid$cases) using less code and simpler syntax.
+  
+- Class: text
+  Output: As we saw above, `group_by()` is pretty useless on its own too. However, combined with `summarize()`, they make a formidable pair.
+
+- Class: cmd_question
+  Output: Let's calculate the total number of cases so far on each continent using the `sum()` function and putting `group_by()` and `summarize()` together. First use group_by() to group covid by continent, then use summarize to to calculate total cases per continent. Do not forget to use the pipes.
+  CorrectAnswer: covid %>% group_by(continent) %>% summarize(total_cases = sum(cases))
+  AnswerTests: omnitest(correctExpr='covid %>% group_by(continent) %>% summarize(total_cases = sum(cases))')
+  Hint: Try typing `covid %>% group_by(continent) %>% summarize(total_cases = sum(cases))`
+  
+- Class: text
+  Output: Notice that the number of rows in the output equals the number of groups. It's the same number of rows as the output from `nest_by()`
+
+- Class: text
+  Output: "The beauty of `group_by()` is that it's trivial to add additional groups. For example, if we want to calculate the case counts per continent per month, it's easy"
+
+- Class: cmd_question
+  Output: Use the same code as the previous exercise but add 'month' as additional group to the `group_by()` command.
+  CorrectAnswer: covid %>% group_by(continent, month) %>% summarize(total_cases = sum(cases))
+  AnswerTests: omnitest(correctExpr='covid %>% group_by(continent, month) %>% summarize(total_cases = sum(cases))')
+  Hint: Try typing `covid %>% group_by(continent, month) %>% summarize(total_cases = sum(cases))`
+
+- Class: cmd_question
+  Output: Adding an additional layer and filtering for the months of April and May is showing us continents that were able to reduce their numbers around that time, namely Europe and Oceania. Add a filter for April and May to our previous code. Type it all below.
+  CorrectAnswer: covid %>% group_by(continent, month) %>% summarize(total_cases = sum(cases)) %>% filter(month %in% c("Apr", "May"))
+  AnswerTests: omnitest(correctExpr='covid %>% group_by(continent, month) %>% summarize(total_cases = sum(cases)) %>% filter(month %in% c("Apr", "May"))')
+  Hint: Add `filter(month %in% c("Apr", "May"))` to our previous code
+
+- Class: cmd_question
+  Output: Just as we can add additional groups, we can also add additional summaries. Add a summary for 'total_deaths'. No need to filter for April and May now.
+  CorrectAnswer: covid %>% group_by(continent, month) %>% summarize(total_cases = sum(cases), total_deaths = sum(deaths))
+  AnswerTests: omnitest(correctExpr='covid %>% group_by(continent, month) %>% summarize(total_cases = sum(cases), total_deaths = sum(deaths))')
+  Hint: Try typing `covid %>% group_by(continent, month) %>% summarize(total_cases = sum(cases), total_deaths = sum(deaths))`
+
+- Class: cmd_question
+  Output: "Let's say we want to figure out which has been the most deadly month worldwide. We wouldn't want to group by continent anymore. Try grouping only by month and summarizing only total deaths."
+  CorrectAnswer: covid %>% group_by(month) %>% summarize(total_deaths = sum(deaths))
+  AnswerTests: omnitest(correctExpr='covid %>% group_by(month) %>% summarize(total_deaths = sum(deaths))')
+  Hint: Try typing `covid %>% group_by(month) %>% summarize(total_deaths = sum(deaths))`
+
+- Class: text
+  Output: Calculating New Columns on Grouped Data with `mutate()`

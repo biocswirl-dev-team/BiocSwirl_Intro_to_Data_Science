@@ -337,6 +337,7 @@
   Output: Add covid$month as the names to the vector.
   CorrectAnswer: names(x) <- covid$month
   AnswerTests: omnitest(correctExpr = 'names(x) <- covid$month')
+  Hint: Try typing 'names(x) <- covid$month'
   
 # vector subsetting using indices
 - Class: cmd_question
