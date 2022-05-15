@@ -15,6 +15,7 @@
 ##################### installing packages 
 - Class: text
   Output: In order to take full advantage of R\'s rich ecosystem, we need to learn how to install third party packages. Packages extend R\'s base functionality, and are quality checked when hosted on a repository such as CRAN or Bioconductor. CRAN (The Comprehensive R Archive Network) hosts nearly all available general use R packages, whereas Bioconductor hosts most of the bioinformatics R packages. Remember that any time during the course you can use the play() command in your R console to try out random R commands without getting the answer wrong. To enter back into the course use nxt()
+
 - Class: text
   Output: In order to install a package, we use the syntax install.packages(\"packagename\") - When we give R a string, it is case sensitive. This is important when installing packages since the exact package name must be matched in the CRAN repository. The most common package install errors come from not spelling the package name right.
   
@@ -26,7 +27,7 @@
   Hint: The library() function is what we use to load packages we've previously installed into our R session. 
 
 - Class: cmd_question
-  Output: Bioconductor packages require a slightly different install method, however. First you will need the package called BiocManager from CRAN. Try doing so below:
+  Output: Bioconductor packages require a slightly different install method, however. First you will need the package called BiocManager from CRAN. Try doing so below
   CorrectAnswer: install.packages("BiocManager")
   AnswerTests: omnitest(correctVal='install.packages("BiocManager")')
   Hint: Remember that package names are case sensitive. Try using the same command as the last question. If you are using an R version < 3.5.0, use BiocInstaller/biocLite instead. 
@@ -89,7 +90,7 @@
 - Class: cmd_question
   Output: To read in data we will be using read_csv() from the readr package, which has special functions for reading in different data formats into R. Usually, when we read in data we assign it into a variable, which looks something like variablename <- read_csv(\"path/to/data\"). Try reading in the covid19_cases_worldwide_monthly.csv dataset located in the data folder using the read_csv() function. Assign it to a variable named \"covid\". 
   CorrectAnswer: covid <- read_csv("data/covid19_cases_worldwide_monthly.csv")
-  AnswerTests: omnitest(correctVal= 'covid <- read_csv("data/covid19_cases_worldwide_monthly.csv")')
+  AnswerTests: omnitest(correctExpr='covid <- read_csv("data/covid19_cases_worldwide_monthly.csv")')
   Hint: Remember to use the format variablename <- read_csv('data/datafile.csv')
   
 

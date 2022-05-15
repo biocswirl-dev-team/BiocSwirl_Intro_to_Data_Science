@@ -259,14 +259,4 @@
 - Class: text
   Output: Fantastic, you finished the data visualization lesson!
 
-- Class: text_question
-  Output: explain the question here
-  CorrectAnswer: answer
-  AnswerTests: omnitest(correctVal='answer')
-  Hint: hint
 
-- Class: text_question
-  Output: explain the question here
-  CorrectAnswer: answer
-  AnswerTests: omnitest(correctVal='answer')
-  Hint: hint
