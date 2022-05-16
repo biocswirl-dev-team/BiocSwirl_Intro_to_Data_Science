@@ -137,3 +137,78 @@
 
 - Class: text
   Output: Calculating New Columns on Grouped Data with `mutate()`
+
+- Class: text
+  Output: "`group_by()` is not only useful with `summarize()`. Some calculations are based on group-specific values and row-specific values. One example is the percentage of deaths in each month per continent. Let's start by calculating the total number of cases per continent per month"
+  
+- Class: cmd_question
+  Output: Group the covid data by continent and month and summarize 'deaths'. Assign the result to 'deaths_per_continent_per_month'
+  CorrectAnswer: deaths_per_continent_per_month <- covid %>% group_by(continent, month) %>% summarize(deaths = sum(deaths))
+  AnswerTests: omnitest(correctExpr='deaths_per_continent_per_month <- covid %>% group_by(continent, month) %>% summarize(deaths = sum(deaths))')
+  Hint: Try typing deaths_per_continent_per_month <- covid %>% group_by(continent, month) %>% summarize(deaths = sum(deaths))
+  
+- Class: cmd_question
+  Output: "Let's look at the results - recall 'deaths_per_continent_per_month'"
+  CorrectAnswer: deaths_per_continent_per_month
+  AnswerTests: omnitest(correctExpr='deaths_per_continent_per_month', correctVal=VAL)
+  Hint: Just type deaths_per_continent_per_month to look at the results
+  
+- Class: text
+  Output: "You probably noticed the message from `summarize()` about regrouping output by `continent`. This has to do with a longstanding behaviour of `summarize()`, where it will "remove" the last group. Here, the groups went from continent and month to just continent. You can change this behaviour using the `.groups` argument, as the message suggests. In this case, the behaviour is exactly what we want"
+  
+- Class: cmd_question
+  Output: If we want to calculate the percentge of death in each month, we need the denominator, _i.e._ the total number of deaths in all months. We can `mutate()` on a grouped data frame to calculate this number and save it in a new column. Pipe `deaths_per_continent_per_month` into `mutate()` and calculate total_deaths as sum(deaths).
+  CorrectAnswer: deaths_per_continent_per_month %>% mutate(total_deaths = sum(deaths))
+  AnswerTests: omnitest(correctExpr='deaths_per_continent_per_month %>% mutate(total_deaths = sum(deaths))')
+  Hint: Try typing the following - deaths_per_continent_per_month %>% mutate(total_deaths = sum(deaths))
+
+- Class: text
+  Output: "If might be a bit weird to see the same number repeated in multiple rows. However, we need this to take advantage of R's vectorization when calculating the percentage. With the denominator calculated, we can now derive the percentage"
+
+- Class: cmd_question
+  Output: Using the same code as above, calculate pct_deaths as deaths/total_deaths *100 in addition to total_deaths.
+  CorrectAnswer: deaths_per_continent_per_month %>% mutate(total_deaths = sum(deaths), pct_deaths = deaths/total_deaths * 100)
+  AnswerTests: omnitest(correctExpr='deaths_per_continent_per_month %>% mutate(total_deaths = sum(deaths), pct_deaths = deaths/total_deaths * 100)')
+  Hint: Try typing deaths_per_continent_per_month %>% mutate(total_deaths = sum(deaths), pct_deaths = deaths/total_deaths * 100)
+
+- Class: text
+  Output: We achieved what we want, but there are a few optional tweaks we can make.
+
+- Class: text
+  Output: "First, we don't need to keep the redundant `total_deaths` column. We could remove it, but it's simpler to avoid creating it in the first place by calculating the total number of deaths on the fly, _i.e._ in the denominator when we calculate the percentage."
+
+- Class: cmd_question
+  Output: Try piping deaths_per_continent_per_month into mutate like before but skip creating total_deaths and directly calculate pct_deaths as 'deaths/sum(deaths)*100'.
+  CorrectAnswer: deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100
+  AnswerTests: omnitest(correctExpr='deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100')
+  Hint: Try typing 'deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100'
+
+- Class: text
+  Output: Second, we personally don't like having 10 decimal places (not practical), so we usually round off decimal numbers. Here, because some percentages are small, we will actually round the percentages based on the number of significant digits (using `signif()`) rather than the number of decimal points (using `round()`). While we could wrap the percentage calculation with `signif()`, it would make that line pretty cluttered and harder to read, so we will calculate it on a separate line.
+
+- Class: cmd_question
+  Output: Using your code from the previous question, add another line to the mutate function to round the results of pct_deaths like so 'pct_deaths = signif(pct_deaths, 2)'. This will overwrite the pct_deaths column with the rounded results.
+  CorrectAnswer: deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100, pct_deaths = signif(pct_deaths, 2))
+  AnswerTests: omnitest(correctExpr='deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100, pct_deaths = signif(pct_deaths, 2))')
+  Hint: Try typing 'deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100, pct_deaths = signif(pct_deaths, 2))'
+
+- Class: text
+  Output: Removing Groups with `ungroups()`
+
+- Class: text
+  Output: "A quick final note about `group_by()`. As you can see, it can affect the output of `summarize()` and `mutate()`. As a result, it's suggested to remove groups as soon as you no longer need them. You can easily do this with the `ungroup()` function. The output won't look any different, but you will notice that the `grouped_df` has been dropped from the class."
+
+- Class: cmd_question
+  Output: "Use your code from above including the rounding of 'pct_deaths' and pipe it into `ungroup()`. Don't forget to assingn the results to 'deaths_per_continent_per_month' again to be able to look at the ungrouped results."
+  CorrectAnswer: deaths_per_continent_per_month <- deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100, pct_deaths = signif(pct_deaths, 2)) %>% ungroup()
+  AnswerTests: omnitest(correctExpr='deaths_per_continent_per_month <- deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100, pct_deaths = signif(pct_deaths, 2)) %>% ungroup()')
+  Hint: Try typing 'deaths_per_continent_per_month <- deaths_per_continent_per_month %>% mutate(pct_deaths = deaths / sum(deaths) * 100, pct_deaths = signif(pct_deaths, 2)) %>% ungroup()'
+
+- Class: cmd_question
+  Output: If you now look at the class() of deaths_per_continent_per_month, you can see that `grouped_df` has been dropped. Try it out!
+  CorrectAnswer: class(deaths_per_continent_per_month)
+  AnswerTests: omnitest(correctExpr='class(deaths_per_continent_per_month)', correctVal=VAL)
+  Hint: Try typing 'class(deaths_per_continent_per_month)'
+
+- Class: text
+  Output: "`tidyr`: Wrangling Data Frames"
